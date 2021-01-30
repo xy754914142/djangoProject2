@@ -2,10 +2,9 @@ from django.db import models
 
 # Create your models here.
 class Book(models.Model):
-    id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=32)
     price = models.DecimalField(max_digits=5, decimal_places=2)
-    publish = models.CharField(max_length=32)
+    publish = models.ForeignKey('Publish',on_delete=models.CASCADE)
     pub_date = models.DateField()
     author = models.ManyToManyField('Author')
 
@@ -17,13 +16,13 @@ class Publish(models.Model):
 class Author(models.Model):
     name = models.CharField(max_length=32)
     age = models.SmallIntegerField()
-    au_detail = models.OneToOneField('AuthorDetail',on_delete=models.CASCADE())
+    au_detail = models.OneToOneField('AuthorDetail',on_delete=models.CASCADE)
 
 class AuthorDetail(models.Model):
     gender_choices = (
-        (0,"女")
-        (1,"男")
-        (2,"保密")
+        (0,"女"),
+        (1,"男"),
+        (2,"保密"),
     )
     gender = models.SmallIntegerField(choices=gender_choices)
     tel = models.CharField(max_length=32)
